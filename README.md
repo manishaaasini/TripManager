@@ -1,4 +1,4 @@
-🌍 Tourist Package Recommender
+# 🌍 Tourist Package Recommender
 
 Welcome to the Tourist Package Recommender — a smart recommendation system that helps travelers find the best tour packages based on their preferences! ✈️🏖️🏞️
 
@@ -10,11 +10,11 @@ This project scrapes tour package details from the web, processes the data into 
 
 Tourist Package Recommender/
 
-├── recommendation_system.py   # Streamlit-based recommendation logic
+├── recommendation_system.py         # Streamlit-based recommendation logic
 
-├── tourism_recommendation.py  # Backend logic for recommendations
+├── tourism_recommendation.py        # Backend logic for recommendations
 
-├── scraper.py                 # Scrapes tour package details
+├── scraper.py                       # Scrapes tour package details
 
 ├── formater.py                # Converts raw data into JSON format
 
@@ -30,3 +30,36 @@ Tourist Package Recommender/
 
 📱 User Interface: recommendation_system.py provides an interactive UI using Streamlit.
 
+
+
+# 🏆Predicting Visitors Using ARIMA
+
+This project predicts the number of visitors to a location using the ARIMA (AutoRegressive Integrated Moving Average) model. It analyzes historical trends and forecasts future visitor counts based on Google Trends data.
+
+📂 Project Structure
+
+Predicting Visitors Using ARIMA/
+
+├── arima.py                    # ARIMA model implementation
+
+├── Google_Trends_past_5.csv    # Historical visitor trend data
+
+🔄 Workflow
+
+📊 Data Collection: Uses Google_Trends_past_5.csv, containing visitor trends.
+
+🔄 Data Preprocessing: Cleans and prepares data for modeling.
+
+📈 ARIMA Model Training: arima.py applies the ARIMA algorithm for forecasting.
+
+📉 Future Predictions: The trained model predicts upcoming visitor trends.
+
+
+
+# 🌦️ Seasonal Recommendation
+
+Seasonal Recommendation/
+
+├── streamlit.py       # Streamlit-based seasonal recommendation UI
+
+├── tourism_data.py    # Processes and analyzes seasonal tourism trends
