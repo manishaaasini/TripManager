@@ -36,34 +36,49 @@ class TourismRecommender:
 
     def search_packages(self, location, preferences):
         """Search and filter tour packages based on user preferences."""
-        # Normalize location to a string for cases where it's a list
-        location_query = location.lower()
-
+        
+        location_query = location.lower().strip()
         filtered_packages = []
-        for pkg in self.tour_packages:
-            # Ensure `pkg.location` is always treated as a string
-            package_locations = pkg.location if isinstance(pkg.location, list) else [pkg.location]
-            package_locations_str = ", ".join(package_locations).lower()
 
-            # Check if any location in the package matches the query
-            if location_query in package_locations_str:
+        # Step 1: Fix location matching
+        for pkg in self.tour_packages:
+            package_locations = pkg.location if isinstance(pkg.location, list) else [pkg.location]
+            
+            # Ensure case-insensitive matching for each location
+            if any(location_query in loc.lower() for loc in package_locations):
                 filtered_packages.append(pkg)
 
-        # Apply additional filters
-        results = [
-            pkg for pkg in filtered_packages
-            if pkg.price <= preferences.get("max_price", float("inf")) and
-            pkg.duration >= preferences.get("preferred_duration", 0) and
-            (not preferences.get("preferred_activities") or any(act in pkg.activities for act in preferences["preferred_activities"])) and
-            (not preferences.get("accommodation_type") or pkg.accommodation_type == preferences["accommodation_type"]) and
-            (not preferences.get("meal_plan") or pkg.meal_plan == preferences["meal_plan"]) and
-            (not preferences.get("transport_type") or pkg.transport_type == preferences["transport_type"]) and
-            (not preferences.get("difficulty_level") or pkg.difficulty_level == preferences["difficulty_level"]) and
-            (not preferences.get("required_languages") or any(lang in pkg.language_support for lang in preferences["required_languages"])) and
-            pkg.max_group_size <= preferences.get("max_group_size", float("inf")) and
-            pkg.rating >= preferences.get("min_rating", 0)
-        ]
+        print(f"✅ Found {len(filtered_packages)} packages matching location '{location_query}'.")
 
+        # Step 2: Apply Additional Filters
+        results = []
+        for pkg in filtered_packages:
+            # Debugging Prints (Check Values Before Filtering)
+            print(f"\n🔍 Checking package: {pkg.name}")
+            print(f"📌 Price: {pkg.price}, Allowed Max Price: {preferences.get('max_price', float('inf'))}")
+            print(f"🕒 Duration: {pkg.duration}, Min Duration: {preferences.get('preferred_duration', 0)}")
+            print(f"🎯 Activities: {pkg.activities}, Required: {preferences.get('preferred_activities')}")
+            print(f"🏨 Accommodation: {pkg.accommodation_type}, Required: {preferences.get('accommodation_type')}")
+            print(f"🍽️ Meal Plan: {pkg.meal_plan}, Required: {preferences.get('meal_plan')}")
+            print(f"🚗 Transport: {pkg.transport_type}, Required: {preferences.get('transport_type')}")
+            print(f"👥 Group Size: {pkg.max_group_size}, Max Allowed: {preferences.get('max_group_size', float('inf'))}")
+            
+            # Apply filtering conditions with flexible checks
+            if (
+                (not preferences.get("max_price") or pkg.price <= preferences["max_price"])
+                and (not preferences.get("preferred_duration") or pkg.duration >= preferences["preferred_duration"])
+                and (not preferences.get("preferred_activities") or any(act in pkg.activities for act in preferences["preferred_activities"]))
+                and (not preferences.get("accommodation_type") or preferences["accommodation_type"] == "Any" or preferences["accommodation_type"] in pkg.accommodation_type)
+                and (not preferences.get("meal_plan") or preferences["meal_plan"] == "Any" or pkg.meal_plan == preferences["meal_plan"])
+                and (not preferences.get("transport_type") or preferences["transport_type"] == "Any" or preferences["transport_type"] in pkg.transport_type)
+                and (not preferences.get("difficulty_level") or preferences["difficulty_level"] == "Any" or pkg.difficulty_level == preferences["difficulty_level"])
+                and (not preferences.get("required_languages") or not pkg.language_support or any(lang in pkg.language_support for lang in preferences["required_languages"]))
+                and (not preferences.get("max_group_size") or pkg.max_group_size == 0 or pkg.max_group_size <= preferences["max_group_size"])
+                and (not preferences.get("min_rating") or pkg.rating == 0 or pkg.rating >= preferences["min_rating"])
+            ):
+                results.append(pkg)
+        
+        print(f"✅ Final matched packages after filters: {len(results)}")
         return results
 
     def get_unique_values(self):
