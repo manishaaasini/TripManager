@@ -1,42 +1,32 @@
-# TripManager
+🌍 Tourist Package Recommender
 
-🌍 Tourism Package Recommender
+Welcome to the Tourist Package Recommender — a smart recommendation system that helps travelers find the best tour packages based on their preferences! ✈️🏖️🏞️
 
-Welcome to Tourism Package Recommender! This Streamlit-based application helps users find the perfect vacation package based on location, budget, duration, and various other preferences.
+🔎 Overview
 
-🚀 Features
+This project scrapes tour package details from the web, processes the data into a structured format, and provides personalized package recommendations using Streamlit.
 
-Search by Location – Find packages based on your desired destination.
+📚 Project Structure
 
-Price Filtering – Set a maximum budget for your trip.
+Tourist Package Recommender/
 
-Duration Preference – Choose the ideal trip duration.
+├── recommendation_system.py   # Streamlit-based recommendation logic
 
-Activity Selection – Filter packages by preferred activities.
+├── tourism_recommendation.py  # Backend logic for recommendations
 
-Accommodation Options – Select from different accommodation types.
+├── scraper.py                 # Scrapes tour package details
 
-Advanced Filters – Meal plans, transport types, difficulty levels, group sizes, and language preferences.
+├── formater.py                # Converts raw data into JSON format
 
-Package Details – View comprehensive package information, including pricing, ratings, and seller details.
+├── tour_packages.json         # Stores structured package details
 
-Direct Booking Links – Clickable links to book packages directly.
+🔄 Workflow
 
-🛠️ Installation
+🔍 Scraping Data: scraper.py collects raw data from various sources.
 
-To run this project locally, follow these steps:
+📏 Formatting Data: formater.py processes and converts raw data into a structured JSON format.
 
-1️⃣ Clone the Repository
+💡 Recommendation Logic: tourism_recommendation.py filters and recommends packages.
 
-git clone https://github.com/manishaaasini/TripManager.git
-cd TripManager
+📱 User Interface: recommendation_system.py provides an interactive UI using Streamlit.
 
-2️⃣ Install Dependencies
-
-Make sure you have Python installed, then install the required libraries:
-
-pip install -r requirements.txt
-
-3️⃣ Run the Application
-
-streamlit run app.py
