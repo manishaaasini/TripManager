@@ -56,10 +56,13 @@ def get_seasonal_recommendations(current_month=None):
         'Post-Monsoon': [10, 11]
     }
     current_season = next((season for season, months in seasons.items() if current_month in months), 'Winter')
-    return DESTINATIONS.get(f"{current_season} (Dec-Feb)" if current_season == 'Winter' else
-                            f"{current_season} (Mar-May)" if current_season == 'Summer' else
-                            f"{current_season} (Jun-Sep)" if current_season == 'Monsoon' else
-                            f"{current_season} (Oct-Nov)", [])
+    season_key = {
+        'Winter': 'Winter (Dec-Feb)',
+        'Summer': 'Summer (Mar-May)',
+        'Monsoon': 'Monsoon (Jun-Sep)',
+        'Post-Monsoon': 'Post-Monsoon (Oct-Nov)'
+    }[current_season]
+    return DESTINATIONS.get(season_key, [])
 
 def predict_next_month_tourism():
     current_month = datetime.now().month
@@ -89,7 +92,7 @@ def plot_tourism_trends():
 def run():
     st.title("📅 Seasonal Tourism Insights")
 
-    current_date = datetime(2025, 1, 7)
+    current_date = datetime.now()  # Use real current date
     next_month_prediction = predict_next_month_tourism()
     recommendations = get_seasonal_recommendations(current_date.month)
 
@@ -106,3 +109,7 @@ def run():
     st.plotly_chart(fig)
 
     st.markdown("**Recommendation:** Consider these destinations for your next month's travel plans.")
+
+# Run the app
+if __name__ == "__main__":
+    run()
