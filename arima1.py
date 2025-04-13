@@ -133,8 +133,25 @@ class VisitorPredictor:
 def run():
     st.title("🧭 Tourist Visitor Predictor")
 
-    place_name = st.text_input("Enter the location name (e.g. Taj Mahal)")
+    place_name = st.selectbox("Select the location", [
+        "Taj Mahal", "Red Fort", "Jaipur", "Varanasi", "Goa", "Kerala", 
+        "Munnar", "Hyderabad", "Coorg", "Golden Temple", "Maha Kumbh", 
+        "Manali", "Shimla", "Darjeeling", "Ooty", "Leh-Ladakh", "Nainital", 
+        "Gulmarg", "Ajanta & Ellora Caves", "Khajuraho", "Jaisalmer", 
+        "Amer Fort", "Mysore Palace", "Konark Sun Temple", "Rameswaram", 
+        "Vaishno Devi", "Tirupati", "Somnath Temple", "Dwarka", 
+        "Puri Jagannath Temple", "Ujjain Mahakaleshwar Temple", 
+        "Andaman & Nicobar Islands", "Lakshadweep", "Gokarna", "Pondicherry"
+    ])
+
     forecast_start_date = st.text_input("Enter the forecast start date (dd-mm-YYYY)", value=datetime.today().strftime("%d-%m-%Y"))
+
+    # Date validation
+    try:
+        pd.to_datetime(forecast_start_date, format='%d-%m-%Y')  # Validate date
+    except ValueError:
+        st.error("Invalid date format! Please enter a date in dd-mm-YYYY format.")
+        return
 
     if st.button("Predict"):
         if place_name and forecast_start_date:
