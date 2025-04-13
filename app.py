@@ -9,11 +9,11 @@ import recommendation_system1
 import seasonal1
 
 # App title
-st.title("🧳 Tourism AI Suite")
+st.title("🧳Enhancing Tourism Forecasting Using Big Data: insights from social media analytics")
 
 # Sidebar navigation
 app_mode = st.sidebar.radio(
-    "Choose a use case",
+    "Welcome! Choose a feature",
     [
         "Predicting Visitors Using ARIMA",
         "Tourist Package Recommender",
